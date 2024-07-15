@@ -1,19 +1,21 @@
 import datetime
-
+import os
 import requests
 from django.shortcuts import render
 
 # Create your views here.
+API_KEY = os.environ['OPEN_WEATHER_API_KEY']
+
+CURRENT_WEATHER_URL = os.environ['OPEN_CURRENT_WEATHER_URL']
+FORECAST_WEATHER_URL = os.environ['OPEN_FORECAST_WEATHER_URL']
 
 def index(request):
-    API_KEY = "8d711ac9628db42328723afd600f41d9"
-    current_weather_url = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid={}&lang=ru"
-    forecast_weather_url = "https://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&units=metric&appid={}&lang=ru"
+    
 
     if request.method == "POST":
         city = request.POST['city']
 
-        weather_data, daily_forecasts = fetch_weather_and_forecast(city, API_KEY, current_weather_url, forecast_weather_url)
+        weather_data, daily_forecasts = fetch_weather_and_forecast(city)
 
         context = {
             'weather_data': weather_data,
@@ -26,10 +28,16 @@ def index(request):
         return render(request, 'weatherapp/index.html')
     
 
-def fetch_weather_and_forecast(city, api_key, current_weather_url, forecast_weather_url):
-    response = requests.get(current_weather_url.format(city, api_key)).json()
-    lat, lon = response['coord']['lat'], response['coord']['lon']
-    forecast_response = requests.get(forecast_weather_url.format(lat, lon, api_key)).json()
+def fetch_weather_and_forecast(city):
+
+    payload = {
+        'units': 'metric',
+        'appid': API_KEY,
+        'lang': 'ru',
+        'q': city,
+    }
+    response = requests.get(CURRENT_WEATHER_URL, payload).json()
+    forecast_response = requests.get(FORECAST_WEATHER_URL, payload).json()
 
     weather_data = {
         "city": city,
