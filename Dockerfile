@@ -11,6 +11,6 @@ COPY requirements.txt /app
 
 RUN pip3 install -r requirements.txt --no-cache-dir
 
-COPY . /app 
+COPY . /app
 
-CMD ["python3", "manage.py", "runserver", "$DJANGO_HOST:$DJANGO_PORT"]
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]

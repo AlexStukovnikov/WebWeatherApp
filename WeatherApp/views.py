@@ -41,6 +41,7 @@ def fetch_weather_and_forecast(city):
 
     weather_data = {
         "city": city,
+        "current_time": datetime.datetime.fromtimestamp(response['dt']).strftime('%H:%M'),
         "temperature": response['main']['temp'],
         "description": response['weather'][0]['description'],
         "icon": response['weather'][0]['icon'],
@@ -57,3 +58,6 @@ def fetch_weather_and_forecast(city):
         })
 
     return weather_data, daily_forecasts
+
+def about(request):
+    return render(request, 'weatherapp/about.html')

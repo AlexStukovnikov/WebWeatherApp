@@ -1,11 +1,25 @@
 {% if weather_data %}
     <h1>{{ weather_data.city }}</h1>
     <h2></h2>
-    <h2>{{ weather_data.temperature }}°C</h2>
-    <p>
-        {{ weather_data.description }}
-    </p>
-    <img src="http://openweathermap.org/img/w/{{ weather_data.icon }}.png" alt="{{ weather_data.description }}">
+    <h2>Текущие погодные условия</h2>
+    <h2></h2>
+    <div style="background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 0px;
+        width: 27%;
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;">
+        <h3>Текущее время: {{ weather_data.current_time }}</h3>
+        <h2></h2>
+        <h2>{{ weather_data.temperature }}°C</h2>
+        <p>
+            {{ weather_data.description }}
+        </p>
+        <img src="http://openweathermap.org/img/w/{{ weather_data.icon }}.png" alt="{{ weather_data.description }}">
+    </div>    
 {% endif %}
 
 {% if daily_forecasts %}
